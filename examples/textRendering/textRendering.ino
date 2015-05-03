@@ -1,9 +1,17 @@
+/**
+ * Produces a marque display scrolling across based on the LEDDisplay library.
+ * This shows the use of setValueRaw, to directly write onto the display. 
+ * http://www.thecoderscorner.com/electronics/microcontrollers/driving-displays/47-arduino-7-segment-led-display-library
+ */
+
 #include <LEDDisplay.h>
 
+// the pin where wiring starts.
+int LED_START_PIN = 32;
 int i=0;
 void setup()
 {
-  LEDDisplay* d = new LEDDisplay(32, true);
+  LEDDisplay* d = new LEDDisplay(LED_START_PIN, true);
   d->startInterrupt();
 }
 
