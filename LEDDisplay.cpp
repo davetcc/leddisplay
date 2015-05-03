@@ -7,7 +7,7 @@ This library will drive an LED 7 segment display by interrupt.
 
 LEDDisplay* LEDDisplay::theDisplay;
 
-const unsigned char LEDDisplay::charMap[30] = {
+const unsigned char LEDDisplay::charMap[] PROGMEM = {
 // bits       6543210
 // digits     abcdefg
         0b1111110,//0 0x00
@@ -43,7 +43,7 @@ const unsigned char LEDDisplay::charMap[30] = {
 };
 
 
-LEDDisplay::LEDDisplay(char pinStart, boolean commonHigh) {
+LEDDisplay::LEDDisplay(char pinStart, boolean commonHigh, unsigned char brightness) {
     this->pinStart = pinStart;
     this->commonHigh = commonHigh;
 
@@ -51,7 +51,9 @@ LEDDisplay::LEDDisplay(char pinStart, boolean commonHigh) {
         pinMode(pinStart + i, OUTPUT);
     }
 
-    currentDigit = 0;
+    this->currentDigit = 0;
+
+    this->brightness = brightness;
 }
 
 LEDDisplay::~LEDDisplay() {
@@ -68,6 +70,11 @@ void LEDDisplay::startInterrupt() {
   TCCR1B |= _BV(CS11);    // 256 prescaler
   TIMSK1 |= _BV(TOIE1);   // enable timer overflow interrupt
   interrupts();             // enable all interrupts
+}
+
+void LEDDisplay::setBrightness(unsigned char brightness) {
+    if(brightness > MAX_BRIGHTNESS) brightness = MAX_BRIGHTNESS;
+    this->brightness = brightness;
 }
 
 void LEDDisplay::setValueDec(unsigned int newValue, boolean zeroPad) {
@@ -95,18 +102,18 @@ void LEDDisplay::setValueFloat(float newValue, unsigned int decimalPlaces, boole
 void LEDDisplay::setNumeric(unsigned int value, unsigned int base, char start, char places, boolean zeroPad) {
     for(int i =places+start;i>=start;--i) {
         int digit = value % base;
-        if(digit == 0 && !zeroPad) {
+        value = value / base;
+        if(digit == 0 && value == 0 && !zeroPad) {
             digit=0x1d;
         }
         setValueRaw(i, digit);
-        value = value / base;
     }
 }
 
 
 void LEDDisplay::setValueRaw(char position, char newValue, boolean dpOn) {
     if(position < LED_NUM_DIGITS) {
-        digits[position] = charMap[newValue];
+        digits[position] = pgm_read_byte_near(charMap + newValue);
 
         if(dpOn) {
             digits[position] |= 0x80;
@@ -118,10 +125,13 @@ void LEDDisplay::setValueRaw(char position, char newValue, boolean dpOn) {
     }
 }
 
+
 void LEDDisplay::isr_display() {
+
     if(currentDigit >= LED_NUM_DIGITS) {
         digitalWrite(pinStart + LCD_BITS + LED_NUM_DIGITS -1, 0);
         currentDigit = 0;
+        ++pwm;
     }
     else {
         digitalWrite(pinStart + LCD_BITS + currentDigit -1, 0);
@@ -131,9 +141,14 @@ void LEDDisplay::isr_display() {
         digitalWrite(pinStart + i, digits[currentDigit] & (1<<6-i));
     }
 
-    digitalWrite(pinStart + 7, digits[currentDigit] & 0x80);
+    digitalWrite(pinStart + (LCD_BITS -1 ), digits[currentDigit] & 0x80);
 
-    digitalWrite(pinStart + LCD_BITS + currentDigit,1);
+    if(brightness == MAX_BRIGHTNESS) {
+        digitalWrite(pinStart + LCD_BITS + currentDigit, commonHigh);
+    }
+    else {
+        digitalWrite(pinStart + LCD_BITS + currentDigit, brightness > (pwm & 3));
+    }
 
     ++currentDigit;
 }

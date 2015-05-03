@@ -25,19 +25,24 @@ LED_NUM_DIGITS differently. Simple examples in the libraries example folder.
 
 #define LCD_BITS 8
 
+#define MAX_BRIGHTNESS 4
+
 /** utility method for doing power of 10 on integers */
 unsigned int fastPow10(unsigned int dp);
 
 class LEDDisplay {
 public:
 	/** Create an LCD Display instance to control a connected display */
-	LEDDisplay(char pinStart, boolean commonHigh);
+	LEDDisplay(char pinStart, boolean commonHigh, unsigned char brightness = MAX_BRIGHTNESS);
 	~LEDDisplay();
 
 	static LEDDisplay* instance() {return theDisplay;}
 
 	/** Starts a timer interrupt that will keep the display updated */
 	void startInterrupt();
+
+	/** Sets the brightness of the display, min 0, max 3 */
+	void setBrightness(unsigned char brightness);
 
 	/** Set the display to a decimal value */
 	void setValueDec(unsigned int newValue, boolean zeroPad=true);
@@ -73,8 +78,14 @@ private:
 	/** the current digit being rendered */
 	volatile unsigned char currentDigit;
 
+	/** the brightness level if selected */
+	volatile unsigned char brightness;
+
+	/** we simulate PWM in the switching of the LED display */
+	volatile unsigned char pwm;
+
 	/** The actual character bit patterns for display */
-	const static unsigned char charMap[30];
+	const static unsigned char charMap[] PROGMEM;
 };
 
 #endif
