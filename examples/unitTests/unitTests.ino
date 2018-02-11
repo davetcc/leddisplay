@@ -6,9 +6,12 @@
  */
 #include <LEDDisplay.h>
 
+int startPin = 42;
+int numDigits = 4;
+
 // set the pin at which you started wiring below, if the display is common cathode 
 // and the number of digits
-LEDDisplay display(42, true, 4);
+LEDDisplay display(startPin, true, numDigits);
 
 void setup()
 {

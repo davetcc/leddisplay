@@ -8,8 +8,9 @@
 
  // the pin where wiring starts 
 int startPin = 32;
+int analogInPin = 1;
 
-LEDDisplay display(startPin, true);
+LEDDisplay display(startPin, true); // defaults to 4 digits.
 
 void setup()
 {
@@ -19,7 +20,7 @@ void setup()
 
 void loop()
 {
-  int value = analogRead(0);
+  int value = analogRead(analogInPin);
   display.setValueDec(value);
   // change the line below to render in hex instead of decimal
   //  display.setValueHex(i);

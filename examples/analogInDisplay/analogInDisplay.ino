@@ -6,9 +6,10 @@
  */
 
 // choose the pin where the connections start
-int LED_PIN_START = 42;
+int ledStartPin = 42;
+int analogInPin = 1;
 
-LEDDisplay display(LED_PIN_START, true);
+LEDDisplay display(ledStartPin, true);
 
 void setup()
 {
@@ -18,7 +19,7 @@ void setup()
 
 void loop()
 {
-  float value = (float)analogRead(0) / (1024.0 / 5.0) ;
+  float value = (float)analogRead(analogInPin) / (1024.0 / 5.0) ;
   display.setValueFloat(value, 3);
   delay(50);
 }

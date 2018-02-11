@@ -8,10 +8,11 @@
 
 // the pin where wiring starts.
 int ledStartPin = 32;
+int numDigits = 4;
 
 void setup()
 {
-  LEDDisplay* d = new LEDDisplay(LED_START_PIN, true);
+  LEDDisplay* d = new LEDDisplay(ledStartPin, true, numDigits);
   d->startInterrupt();
 }
 
@@ -25,11 +26,11 @@ void loop()
                 0x1d, 0x1d, 0x1d, 0x1d, 0x1d
               };
 
-  if(current > (sizeof(tcc) - LED_NUM_DIGITS)) {
+  if(current > (sizeof(tcc) - numDigits)) {
    current = 0;
   }
   LEDDisplay* d = LEDDisplay::instance();
-  for(int i=0;i<LED_NUM_DIGITS;++i) {
+  for(int i=0;i<numDigits;++i) {
     d->setValueRaw(i, tcc[i+current]);
   }
 
