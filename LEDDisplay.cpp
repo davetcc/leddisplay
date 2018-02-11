@@ -43,11 +43,13 @@ const unsigned char LEDDisplay::charMap[] PROGMEM = {
 };
 
 
-LEDDisplay::LEDDisplay(char pinStart, boolean commonHigh, unsigned char brightness) {
+LEDDisplay::LEDDisplay(char pinStart, boolean commonHigh, unsigned char brightness, int noOfDigits) {
     this->pinStart = pinStart;
     this->commonHigh = commonHigh;
+	this->noOfDigits = noOfDigits;
+	this->digits = new char[noOfDigits];
 
-    for(int i=0;i<(LCD_BITS + LED_NUM_DIGITS);++i) {
+    for(int i=0;i<(LCD_BITS + noOfDigits);++i) {
         pinMode(pinStart + i, OUTPUT);
     }
 
@@ -57,6 +59,7 @@ LEDDisplay::LEDDisplay(char pinStart, boolean commonHigh, unsigned char brightne
 }
 
 LEDDisplay::~LEDDisplay() {
+	delete digits;
 }
 
 void LEDDisplay::startInterrupt() {
@@ -88,7 +91,7 @@ void LEDDisplay::setValueHex(unsigned int newValue) {
 void LEDDisplay::setValueFloat(float newValue, unsigned int decimalPlaces, boolean zeroPad) {
     int whole = (int) newValue;
     int frac = (int) ((newValue - (float)whole) * pow(10, decimalPlaces + 1) + 0.5);
-    int wholeDp = LED_NUM_DIGITS - decimalPlaces;
+    int wholeDp = noOfDigits - decimalPlaces;
     setNumeric(frac, 10, wholeDp, decimalPlaces, true);
     setNumeric(whole, 10, 0, wholeDp-1, zeroPad);
     if(commonHigh) {
@@ -112,7 +115,7 @@ void LEDDisplay::setNumeric(unsigned int value, unsigned int base, char start, c
 
 
 void LEDDisplay::setValueRaw(char position, char newValue, boolean dpOn) {
-    if(position < LED_NUM_DIGITS) {
+    if(position < noOfDigits) {
         digits[position] = pgm_read_byte_near(charMap + newValue);
 
         if(dpOn) {
@@ -128,8 +131,8 @@ void LEDDisplay::setValueRaw(char position, char newValue, boolean dpOn) {
 
 void LEDDisplay::isr_display() {
 
-    if(currentDigit >= LED_NUM_DIGITS) {
-        digitalWrite(pinStart + LCD_BITS + LED_NUM_DIGITS -1, 0);
+    if(currentDigit >= noOfDigits) {
+        digitalWrite(pinStart + LCD_BITS + noOfDigits -1, 0);
         currentDigit = 0;
         ++pwm;
     }

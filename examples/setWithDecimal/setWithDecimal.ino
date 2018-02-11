@@ -5,24 +5,23 @@
  * http://www.thecoderscorner.com/electronics/microcontrollers/driving-displays/47-arduino-7-segment-led-display-library
  */
 
-LEDDisplay *d;
-int i=0;
 
-// the pin where wiring starts 
+ // the pin where wiring starts 
 int startPin = 32;
+
+LEDDisplay display(startPin, true);
 
 void setup()
 {
-  d = new LEDDisplay(startPin, true);
-  d->setValueDec(0);
-  d->startInterrupt();
+  display.setValueDec(0);
+  display.startInterrupt();
 }
 
 void loop()
 {
-  int i = analogRead(0);
-  d->setValueDec(i);
+  int value = analogRead(0);
+  display.setValueDec(value);
   // change the line below to render in hex instead of decimal
-  //  d->setValueHex(i);
+  //  display.setValueHex(i);
   delay(100);
 }

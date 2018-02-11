@@ -18,11 +18,6 @@ LED_NUM_DIGITS differently. Simple examples in the libraries example folder.
 #include <avr/interrupt.h>
 #include <Arduino.h>
 
-// we default to 4 digits if no other value is set
-#ifndef LED_NUM_DIGITS
-#define LED_NUM_DIGITS 4
-#endif
-
 #define LCD_BITS 8
 
 #define MAX_BRIGHTNESS 4
@@ -33,7 +28,7 @@ unsigned int fastPow10(unsigned int dp);
 class LEDDisplay {
 public:
 	/** Create an LCD Display instance to control a connected display */
-	LEDDisplay(char pinStart, boolean commonHigh, unsigned char brightness = MAX_BRIGHTNESS);
+	LEDDisplay(char pinStart, boolean commonHigh, unsigned char brightness = MAX_BRIGHTNESS, int numDigits = 4);
 	~LEDDisplay();
 
 	static LEDDisplay* instance() {return theDisplay;}
@@ -73,7 +68,8 @@ private:
     boolean commonHigh;
 
 	/** memory representation of each item for display */
-	volatile unsigned char digits[LED_NUM_DIGITS];
+	int noOfDigits;
+	volatile unsigned char *digits;
 
 	/** the current digit being rendered */
 	volatile unsigned char currentDigit;

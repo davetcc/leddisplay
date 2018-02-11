@@ -7,8 +7,8 @@
 #include <LEDDisplay.h>
 
 // the pin where wiring starts.
-int LED_START_PIN = 32;
-int i=0;
+int ledStartPin = 32;
+
 void setup()
 {
   LEDDisplay* d = new LEDDisplay(LED_START_PIN, true);

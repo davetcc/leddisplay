@@ -6,17 +6,19 @@
  */
 
 // choose the pin where the connections start
-int LED_PIN_START = 32;
+int LED_PIN_START = 42;
+
+LEDDisplay display(LED_PIN_START, true);
+
 void setup()
 {
   // common must be HIGH to be on. 
-  LEDDisplay* d = new LEDDisplay(LED_PIN_START, true);
-  d->startInterrupt();  
+  display.startInterrupt();  
 }
 
 void loop()
 {
-  float d = (float)analogRead(0) / (1024.0 / 5.0) ;
-  LEDDisplay::instance()->setValueFloat(d, 3);
+  float value = (float)analogRead(0) / (1024.0 / 5.0) ;
+  display.setValueFloat(value, 3);
   delay(50);
 }
