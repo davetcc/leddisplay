@@ -9,6 +9,8 @@ Take a zip download (clone or download button) from here and install it into you
 
 Libraries are usually installed into the Arduino directory under libraries. For example on windows it may be: `~/Documents/Arduino/libraries`
 
+When you unzip into the libraries directory, enusre the directory is called leddisplay (you'll probably need to remove master from the end).
+
 ## Simple use case
 
 Include the header and create a global display variable as below:
