@@ -39,4 +39,4 @@ Then you can draw onto the display, here's a few examples:
 
 ## More information
 
-[TheCodersCorner library documenation](http://www.thecoderscorner.com/products/arduino-downloads/led-display/)
+[TheCodersCorner library documenation](http://www.thecoderscorner.com/products/arduino-libraries/led-display/68-arduino-7-segment-leddisplay-library-download/)
