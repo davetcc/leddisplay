@@ -1,7 +1,6 @@
 # LedDisplay: Display driver for multi-digit 7-segment displays
 
-LEDDisplay is a library that renders information onto multi-digit 7-segment displays. It does so using
-interrupts meaning that you don't have to constantly call an "update" method.
+LEDDisplay is a library that renders information onto multi-digit 7-segment displays. This library requires no additional hardware and uses mutliplex method to refresh each digit. Further, the standalone version can use interrupts to multiplex the digits of the display,  meaning that you don't have to constantly call an "update" method to do the multiplexing.
 
 ## Installation
 
@@ -26,7 +25,8 @@ Include the header and create a global display variable as below:
 In setup start the library:
 
 	void setup() {
-		// your other stuff
+		// This line starts the muliplexing of the digits on an interrupt
+		// if you prefer you can update the display manually too (see docs).
 		display.startInterrupt();
 	}
 
