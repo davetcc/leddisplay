@@ -1,7 +1,7 @@
 /*
-Released under Apache V2 license by www.thecoderscorner.com (Dave Cherry).
-This library will drive an LED 7 segment display by interrupt.
-*/
+ * Copyright (c) 2018 https://www.thecoderscorner.com (Nutricherry LTD).
+ * This product is licensed under an Apache license, see the LICENSE file in the top-level directory.
+ */
 
 #include "LEDDisplay.h"
 
