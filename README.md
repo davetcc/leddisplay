@@ -1,6 +1,6 @@
 # LedDisplay: Display driver for multi-digit 7-segment displays
 
-LEDDisplay is a library that renders information onto multi-digit 7-segment displays. This library requires no additional hardware and uses the mutliplex method to refresh each digit. Further, the standalone version can use interrupts to multiplex the digits of the display,  meaning that you don't have to constantly call an "update" method to do the multiplexing.
+LEDDisplay is a library that renders information onto multi-digit 7-segment displays. This library requires no additional hardware and uses the [mutliplex method to refresh each digit](https://www.thecoderscorner.com/electronics/microcontrollers/driving-displays/65-arduino-multiple-7-segment-display-tutorial/). Further, the standalone version can use interrupts to multiplex the digits of the display,  meaning that you don't have to constantly call an "update" method to do the multiplexing.
 
 ## Installation
 
@@ -39,4 +39,4 @@ Then you can draw onto the display, here's a few examples:
 
 ## More information
 
-[TheCodersCorner library documenation](https://www.thecoderscorner.com/products/arduino-libraries/led-display/68-arduino-7-segment-leddisplay-library-download/)
+[TheCodersCorner library documenation](https://www.thecoderscorner.com/products/arduino-libraries/led-display/)
