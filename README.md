@@ -1,12 +1,12 @@
 # LedDisplay: Display driver for multi-digit 7-segment displays
 
-LEDDisplay is a library that renders information onto multi-digit 7-segment displays. This library requires no additional hardware and uses mutliplex method to refresh each digit. Further, the standalone version can use interrupts to multiplex the digits of the display,  meaning that you don't have to constantly call an "update" method to do the multiplexing.
+LEDDisplay is a library that renders information onto multi-digit 7-segment displays. This library requires no additional hardware and uses the mutliplex method to refresh each digit. Further, the standalone version can use interrupts to multiplex the digits of the display,  meaning that you don't have to constantly call an "update" method to do the multiplexing.
 
 ## Installation
 
 Take a zip download (clone or download button) from here and install it into your Arduino libraries directory.
 
-Libraries are usually installed into the Arduino directory under libraries. For example on windows it may be: `~/Documents/Arduino/libraries`
+Libraries are usually installed into the Arduino directory under libraries. For example on Windows / MacOS it may be: `~/Documents/Arduino/libraries`
 
 When you unzip into the libraries directory, enusre the directory is called leddisplay (you'll probably need to remove master from the end).
 
